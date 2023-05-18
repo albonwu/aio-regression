@@ -1,3 +1,5 @@
+import numpy as np
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -17,33 +19,39 @@ for coord in coords:
 
 @api_view(['GET'])
 def points(request):
+    coords = Coordinate.objects.all()
     serializer = CoordinateSerializer(coords, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def linear(request):
-    model = LinearRegression()
-    model.fit(X, y)
+    model = LinearRegression().fit(X, y)
 
-    temp = Params(model.coef_, model.intercept_)
+    temp = Params()
+    temp.m = model.coef_[0]
+    temp.b = model.intercept_
+
     serializer = ParamsSerializer(temp)
 
     return Response(serializer.data)
 
 @api_view(['GET'])
 def quadratic(request):
-    poly_features = PolynomialFeatures(degree=2)
-    X_poly = poly_features.fit_transform(X)
+    npX = np.array(X).reshape(-1, 1)
+    npy = np.array(y)
 
-    model = LinearRegression()
-    model.fit(X_poly, y)
+    poly_features = PolynomialFeatures(degree=2)
+    X_poly = poly_features.fit_transform(npX)
+
+    model = LinearRegression().fit(X_poly, npy)
 
     coeffs = model.coef_
+    c = model.intercept_
 
-    for i in coeffs:
-        i = 0 if i == None else i
-
-    temp = QuadParams(coeffs[0], coeffs[1], coeffs[2])
+    temp = QuadParams()
+    temp.a = coeffs[2]
+    temp.b = coeffs[1]
+    temp.c = c
     serializer = QuadParamsSerializer(temp)
 
     return Response(serializer.data)
