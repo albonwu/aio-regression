@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class Coordinate(models.Model):
     x = models.FloatField()
     y = models.FloatField()
