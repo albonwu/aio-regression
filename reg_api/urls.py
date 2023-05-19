@@ -1,9 +1,9 @@
 from django.urls import path
-from . import views
+from . import regression_views, modification_views, data_views
 
 urlpatterns = [
-    path("points", views.points, name="points"),
-    path("linear", views.linear, name="linear"),
-    path("quadratic", views.quadratic, name="quadratic"),
-    path("add", views.add, name="add"),
+    path("points", data_views.points, name="points"),
+    path("linear", regression_views.linear, name="linear"),
+    path("quadratic", regression_views.quadratic, name="quadratic"),
+    path("add", modification_views.add, name="add"),
 ]
