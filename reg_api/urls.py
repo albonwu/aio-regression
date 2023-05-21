@@ -5,5 +5,6 @@ urlpatterns = [
     path("points", data_views.points, name="points"),
     path("linear", regression_views.linear, name="linear"),
     path("quadratic", regression_views.quadratic, name="quadratic"),
+    path("ridge", regression_views.ridge, name="ridge"),
     path("add", modification_views.add, name="add"),
 ]

@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.preprocessing import PolynomialFeatures
 
 from .serializers import CoordinateSerializer, ParamsSerializer, QuadParamsSerializer
@@ -57,3 +57,18 @@ def quadratic(request):
 
     return Response(serializer.data)
 
+@api_view(['GET'])
+def ridge(request):
+    npX = np.array(X).reshape(-1, 1)
+    npy = np.array(y)
+    model = Ridge(alpha=1.0).fit(npX, npy)
+
+    coeffs = model.coef_
+
+    temp = Params()
+    temp.m = model.coef_[0]
+    temp.b = model.intercept_
+
+    serializer = ParamsSerializer(temp)
+
+    return Response(serializer.data)
