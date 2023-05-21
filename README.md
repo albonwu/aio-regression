@@ -3,3 +3,4 @@ Currently supported models:
 - Simple linear
 - Multiple linear
 - Quadratic
+- Ridge
