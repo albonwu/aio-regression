@@ -7,4 +7,5 @@ urlpatterns = [
     path("quadratic", regression_views.quadratic, name="quadratic"),
     path("ridge", regression_views.ridge, name="ridge"),
     path("add", modification_views.add, name="add"),
+    path("points/<int:pk>/patch", modification_views.modify, name="modify")
 ]
